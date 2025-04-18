@@ -50,18 +50,13 @@ public class CalculatorService {
 
     private boolean isHoliday(LocalDate day) {
         if (holidays.containsKey(day.getMonthValue())) {
-            if (holidays.get(day.getMonthValue()).contains(day.getDayOfMonth())) {
-                return true;
-            }
+            return holidays.get(day.getMonthValue()).contains(day.getDayOfMonth());
         }
         return false;
     }
 
     private boolean isWeekend(LocalDate day) {
-        if (day.getDayOfWeek().getValue() >= 6) {
-            return true;
-        }
-        return false;
+        return day.getDayOfWeek().getValue() >= 6;
     }
 
     private boolean isVacationDaysValid(Integer vacationDays) {
