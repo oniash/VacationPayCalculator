@@ -2,14 +2,13 @@ package com.example.neoflexcalculator.controller;
 
 import com.example.neoflexcalculator.dto.VacationPayResponse;
 import com.example.neoflexcalculator.service.CalculatorService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
-@Slf4j
 @RestController
 @RequestMapping("/calculate")
 public class VacationPayController {
@@ -22,18 +21,18 @@ public class VacationPayController {
                                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
 
         if (vacationDays == null || averageSalary == null) {
-            return "Ошибка: Параметры vacationDays и averageSalary обязательны.";
+            return "Ошибка: Параметры vacationDays и averageSalary обязательны";
         }
 
         VacationPayResponse result = calculatorService.calculateVacationPay(vacationDays,
                 averageSalary, startDate);
         if (result != null) {
             if (startDate == null) {
-                return "Отпускные: " + String.format("%.2f", result.getVacationPay()) + " за " + result.getVacationDays() + " дней";
+                return "Отпускные: " + String.format(Locale.US, "%.2f", result.getVacationPay()) + " за " + result.getVacationDays() + " дней";
             } else {
-                return "Отпускные: " + String.format("%.2f", result.getVacationPay()) + " с " + result.getVacationStartDate() + " по " + result.getVacationEndDate();
+                return "Отпускные: " + String.format(Locale.US, "%.2f", result.getVacationPay()) + " с " + result.getVacationStartDate() + " по " + result.getVacationEndDate();
             }
         }
-        return "Один или несколько параметров заданы неверно";
+        return "Ошибка: один или несколько параметров заданы неверно";
     }
 }
